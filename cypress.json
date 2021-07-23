@@ -1,0 +1,18 @@
+{
+    "env" :{
+        "url" : "http://bc15-green-commute.dev-apps.io/",
+        "Google" : "https://www.google.com",
+        "AmazonUrl": "https://www.amazon.in/",
+         "mobileNo":"7799800653",
+         "password" : "tilaksai",
+         "fullName" : "Nagulla Srinivasa Rao",
+         "pinCode" : "521148",
+         "houseNo" : "1-104",
+         "village" : "Elamarru",
+         "landMark" : "Near Post Office",
+         "town" : "Gudivada",
+         "state" : "AndhraPradesh",
+         "address" : ["Nagulla Srinivasa Rao","7799800653","521148","1-105","Elamarru","Near Post Office","Gudivada"]
+
+     }
+}
