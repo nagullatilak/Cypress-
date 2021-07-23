@@ -9,6 +9,13 @@ export class Dependencies extends BaseDependencies {
     
 }
 export class RobotHands extends BaseHands{
+    amazonSignIn(){
+        cy.get('#nav-signin-tooltip > .nav-action-button > .nav-action-inner').click({force : true})
+        cy.get('#ap_email').type(Cypress.env('mobileNo'))
+        cy.get('.a-button-inner > #continue').click()
+        cy.get('#ap_password').type(Cypress.env('password'))
+        cy.get('#signInSubmit').click()
+    }
     clickOnSignInButton(id : string){
         this.clickOnId(id)
     }
@@ -159,5 +166,8 @@ export class RobotEyes extends BaseEyes{
     }
     checkTheproductTitle(id : string , text : string){
         this.seesTextWithId(id,text)
+    }
+    atmNumberCheck(element : string,text : string){
+        this.seesTextWithClass(element,text)
     }
 }

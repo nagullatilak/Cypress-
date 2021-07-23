@@ -5,17 +5,12 @@ const robotEyes = new RobotEyes();
 const robotHands = new RobotHands();
 const dependencies = new Dependencies()
   describe('Amazon Shoping',()=>{
-        before(()=>{
+        beforeEach(()=>{
             dependencies.visitWebsite(Cypress.env('AmazonUrl'))
         })
         it('Open Amazon',()=>{
                 robotHands.mouseOverOnSignIn('nav-link-accountList')
-                robotHands.clickOnSignInButton('nav-signin-tooltip > .nav-action-button > .nav-action-inner')
-                robotEyes.urlCheck('/ap/signin')
-                robotHands.enterUserEmail('ap_email',Cypress.env('mobileNo'))
-                robotHands.clickOnContinueButton('.a-button-inner > #continue')
-                robotHands.enterUserPassword('ap_password',Cypress.env('password'))
-                robotHands.clickOnSubmit('signInSubmit')
+                robotHands.amazonSignIn()
                 robotEyes.accountCheck('nav-link-accountList-nav-line-1','Hello, tilak')
         })
         it('Click on Todays Deals and Add to Cart' , ()=>{
@@ -55,27 +50,23 @@ const dependencies = new Dependencies()
        it('Check Amazon prime checkbox',function(){
                 robotHands.clickOnMobiles('nav-xshop > a:nth-child(4)')
                 robotHands.clickOnPrimeCheckBox(':nth-child(3) > .a-unordered-list > .a-spacing-micro > .a-list-item > .a-link-normal > .a-checkbox > label > .a-icon')
-                cy.get('#search > div.s-desktop-width-max.s-opposite-dir > div > div.s-matching-dir.sg-col-16-of-20.sg-col.sg-col-8-of-12.sg-col-12-of-16 > div > span:nth-child(4) > div.s-main-slot.s-result-list.s-search-results.sg-row > div:nth-child(2) > div > span > div > div > div > div > span > a').then(function(l){
                 robotHands.waitSomeTime(6000)
+                cy.get('#search > div.s-desktop-width-max.s-opposite-dir > div > div.s-matching-dir.sg-col-16-of-20.sg-col.sg-col-8-of-12.sg-col-12-of-16 > div > span:nth-child(4) > div.s-main-slot.s-result-list.s-search-results.sg-row > div:nth-child(1) > div > span > div > div > div > div > span > a').then(function(l){
+                
                 const txt = l.prop('href');
                 // get the url in logs
                 cy.log(txt);
                 // launch the url again
                 dependencies.visitWebsite(txt);
                 robotHands.waitSomeTime(6000)
-
+            
                 })
                 robotHands.getDeliveryDate('ddmDeliveryMessage > b')
             })
             
         it('Navigation from left navigation to main-manu',()=>{
                 robotHands.mouseOverOnSignIn('nav-link-accountList')
-                robotHands.clickOnSignInButton('nav-signin-tooltip > .nav-action-button > .nav-action-inner')
-                robotEyes.urlCheck('/ap/signin')
-                robotHands.enterUserEmail('ap_email',Cypress.env('mobileNo'))
-                robotHands.clickOnContinueButton('.a-button-inner > #continue')
-                robotHands.enterUserPassword('ap_password',Cypress.env('password'))
-                robotHands.clickOnSubmit('signInSubmit')
+                robotHands.amazonSignIn()
                 robotEyes.accountCheck('nav-link-accountList-nav-line-1','Hello, tilak')
                 robotHands.clickOnLeftNavigationMenu('nav-hamburger-menu')
                 robotHands.waitSomeTime(6000)
@@ -84,16 +75,15 @@ const dependencies = new Dependencies()
                 robotHands.goBack('hmenu-content > ul.hmenu.hmenu-visible.hmenu-translateX > li:nth-child(1) > a')
                 robotHands.waitSomeTime(6000)
                 //robotEyes.checkTheTitle('hmenu-content > ul.hmenu.hmenu-visible.hmenu-translateX > li:nth-child(2) > div','mobiles, tablets & more')
+                robotHands.waitSomeTime(6000)
                 robotHands.goBack('hmenu-canvas-background > .nav-sprite')
           })
-        it.skip('Go to orders select past one year orders',()=>{
+        it('Go to orders select past one year orders',()=>{
+                robotHands.mouseOverOnSignIn('nav-link-accountList')
+                robotHands.amazonSignIn()
+                robotEyes.accountCheck('nav-link-accountList-nav-line-1','Hello, tilak')
                 robotHands.clickOnYourOrders('nav-orders')
-                robotHands.enterUserEmail('ap_email',Cypress.env('mobileNo'))
-                robotHands.clickOnContinueButton('.a-button-inner > #continue')
-                robotHands.enterUserPassword('ap_password',Cypress.env('password'))
-                robotHands.clickOnSubmit('signInSubmit')
                 robotHands.clickOnOrdersPlaced('a-autoid-1-announce')
-                //robotEyes.checkTheTitle('yourOrdersContent > div.a-row > div:nth-child(1) > h1','\n Your Orders\n')
                 robotHands.selectYear('orderFilter_4')
                 robotHands.waitSomeTime(6000)
                 //robotEyes.checkTheproductTitle('ordersContainer > div.a-box-group.a-spacing-base.order.js-order-card > div.a-box.shipment > div > div > div > div.a-fixed-right-grid-col.a-col-left > div > div > div > div.a-fixed-left-grid-col.a-col-right > div:nth-child(1) > a','\nStrontium Ammo 16GB 2.0 USB Pen Drive (Silver)\n')
@@ -102,23 +92,22 @@ const dependencies = new Dependencies()
             })
         it('Payment options',()=>{
                 robotHands.mouseOverOnSignIn('nav-link-accountList')
+                robotHands.amazonSignIn()
+                robotEyes.accountCheck('nav-link-accountList-nav-line-1','Hello, tilak')
+                robotHands.mouseOverOnSignIn('nav-link-accountList')
                 robotHands.clickOnYourAccount('[href="/gp/css/homepage.html?ref_=nav_AccountFlyout_ya"]')
                 robotHands.clickOnPaymentOptions('a-page > div.a-container > div > div:nth-child(3) > div:nth-child(2) > a > div > div > div > div.a-column.a-span9.a-span-last')
-                robotHands.enterUserEmail('ap_email',Cypress.env('mobileNo'))
-                robotHands.clickOnContinueButton('.a-button-inner > #continue')
-                robotHands.enterUserPassword('ap_password',Cypress.env('password'))
-                robotHands.clickOnSubmit('signInSubmit')
-                 cy.contains('Nagulla Srinivasa Rao')
-                 robotHands.clickOnSavedCards('.a-expander-header > .a-icon')
+                cy.contains('Nagulla Srinivasa Rao')
+                robotHands.clickOnSavedCards('.a-expander-header > .a-icon')
+                robotEyes.atmNumberCheck('pmts-instrument-number-tail > :nth-child(2)','ending in 0173')
           })
         it('Add new Delivery address and verify address is added',()=>{
               robotHands.mouseOverOnSignIn('nav-link-accountList')
+              robotHands.amazonSignIn()
+              robotEyes.accountCheck('nav-link-accountList-nav-line-1','Hello, tilak')
+              robotHands.mouseOverOnSignIn('nav-link-accountList')
               robotHands.clickOnYourAccount('[href="/gp/css/homepage.html?ref_=nav_AccountFlyout_ya"]')
               robotHands.clickOnYourAddresses(':nth-child(3) > :nth-child(1) > .ya-card__whole-card-link > .a-box > .a-box-inner')
-              robotHands.enterUserEmail('ap_email',Cypress.env('mobileNo'))
-              robotHands.clickOnContinueButton('.a-button-inner > #continue')
-              robotHands.enterUserPassword('ap_password',Cypress.env('password'))
-              robotHands.clickOnSubmit('signInSubmit')
               robotEyes.checkTheTitle('a-page > div.a-section > div > h1','Your Addresses')
               robotHands.clickOnAddAddress('ya-myab-address-add-link > .a-box')
               robotHands.enterNewAddress('address-ui-widgets-enterAddressFullName',Cypress.env('fullName'))
@@ -131,7 +120,7 @@ const dependencies = new Dependencies()
               robotEyes.checkTheState('address-ui-widgets-enterAddressStateOrRegion > span > span > span','ANDHRA PRADESH')
               robotHands.addressType('address-ui-widgets-addr-details-address-type-and-business-hours > .a-button-inner > .a-button-text')
               robotHands.selectHomeAddress('dropdown1_1')
-              //robotHands.waitSomeTime(6000)
+              robotHands.waitSomeTime(6000)
               robotHands.clickOnAddAddressButton('.a-button-input')
               robotEyes.addressSavedCheck('yaab-alert-box > div > h4','Address saved')
                 
